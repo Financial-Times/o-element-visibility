@@ -1,0 +1,9 @@
+{
+	"name": "o-element-visibility",
+	"description": "Utility for monitoring elements visibility within the viewport",
+	"main": "main.js",
+	"dependencies": {
+		"o-viewport": "^1.3.0",
+		"lodash": "https://github.com/lodash/lodash.git#3.5.0-npm"
+	}
+}

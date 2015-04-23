@@ -1,0 +1,9 @@
+{
+   "demos": [
+      {
+         "name": "element-visibility",
+         "template": "demos/src/element-visibility.mustache",
+         "js": "demos/src/element-visibility.js",
+         "sass": "demos/src/element-visibility.scss"
+      }]
+}
