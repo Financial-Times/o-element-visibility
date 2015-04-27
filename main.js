@@ -19,7 +19,8 @@ function Element(node) {
 
 	this.id = node.id;
 	this.node = node;
-	this.lastResult = null;
+	this.lastResult = false;
+	this.lastPercentage = 0;
 	this.updatePosition(node);
 	tracked.push(this);
 }
@@ -47,11 +48,20 @@ Element.prototype.updatePosition = function(){
 
 
 Element.prototype.inViewport = function () {
+	var scrollPos = oviewport.getScrollPosition();
+	var viewportDims = oviewport.getViewportSize();
+	var viewport = {
+		top: scrollPos.y,
+		left: scrollPos.x,
+		bottom: scrollPos.y + viewportDims.height,
+		right: scrollPos.x + viewportDims.width,
+	};
 	return (
-		(this.top + this.height) >= 0 &&
-		(this.left + this.width) >= 0 &&
-		(this.bottom - this.height) <= ( (window.innerHeight || document.documentElement.clientHeight)) &&
-		(this.right - this.width) <= ( (window.innerWidth || document.documentElement.clientWidth))
+		// is in viewport vertically
+		((this.top >= viewport.top && this.top <= viewport.bottom) ||
+		(this.bottom >= viewport.top && this.bottom <= viewport.bottom)) &&
+		// is in viewport horizontally
+		((this.left >=  viewport.left && this.left <= viewport.right) || (this.right >=  viewport.left && this.right <= viewport.right))
 	);
 };
 
@@ -66,23 +76,34 @@ Element.prototype.percentInViewport = function () {
 	} else {
 		return 0;
 	}
-
 };
 
 Element.prototype.update = function() {
-	if(this.lastResult !== this.percentInViewport()){
-		var inView = this.lastResult = this.percentInViewport();
-		broadcast('inview', {
-			element: this,
-			visible: !!inView,
-			percentage: inView
-		}, this.node);
+	var type;
+	var inview =  this.inViewport();
+	var percentage = this.percentInViewport();
+	if(this.lastResult !== inview){
+		 this.lastResult = inview;
+		 type = 'visibilityChange';
+	} else if(this.lastPercentage !== percentage){
+		this.lastPercentage	= percentage;
+		type = 'percentageChange';
+	} else {
+		return;
 	}
+
+	broadcast('inview', {
+		element: this,
+		type: type,
+		inviewport: inview,
+		percentage: percentage
+	}, this.node);
 };
 
 function track(element) {
 	element = new Element(element);
 	element.update();
+	initEvents();
 	return element;
 }
 
@@ -119,7 +140,11 @@ function init(selector, debug){
 		});
 		update();
 	}
+	initEvents();
+	document.removeEventListener('o.DOMContentLoaded', init);
+}
 
+function initEvents() {
 	if (initialised === false){
 		oviewport.listenToAll();
 		document.body.addEventListener('oViewport.orientation', updatePositions);
@@ -128,7 +153,6 @@ function init(selector, debug){
 		document.body.addEventListener('oViewport.visibility', update);
 		initialised = true;
 	}
-	document.removeEventListener('o.DOMContentLoaded', init);
 }
 
 document.addEventListener('o.DOMContentLoaded', init);
