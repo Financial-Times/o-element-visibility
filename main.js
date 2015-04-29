@@ -141,7 +141,7 @@ function init(selector, debug){
 		update();
 	}
 	initEvents();
-	document.removeEventListener('o.DOMContentLoaded', init);
+	document.documentElement.removeEventListener('o.DOMContentLoaded', init);
 }
 
 function initEvents() {
@@ -155,7 +155,7 @@ function initEvents() {
 	}
 }
 
-document.addEventListener('o.DOMContentLoaded', init);
+document.documentElement.addEventListener('o.DOMContentLoaded', init);
 
 module.exports = {
 	track: track,
