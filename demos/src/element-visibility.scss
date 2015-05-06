@@ -9,15 +9,11 @@ body {
 	position: fixed;
 	top: 0;
 	left: 0;
-	width: 300px;
+	width: 200px;
 	border: 1px solid black;
 
 	&:hover {
 		opacity: 1;
-	}
-
-	dl {
-		width: 200px;
 	}
 
 	dt {
@@ -26,13 +22,19 @@ body {
 	}
 
 	dd {
+		margin: 0;
 		width: 15%;
 		display: inline-block;
 		text-align: right;
 	}
+
+	label[for="threshold"] {
+		margin-top: 0.3em;
+		display: block
+	}
 }
 
-[data-o-viewport-track] {
+[data-o-element-visibility-track] {
 	width: 100px;
 	height: 100px;
 	background: steelblue;

@@ -1,0 +1,136 @@
+/*global describe, it, before, after*/
+'use strict';
+
+var expect = require('expect.js');
+
+var oElemVis = require('./../main.js');
+
+function isPhantom() {
+	return /PhantomJS/.test(navigator.userAgent);
+}
+
+describe('o-element-visibility', function() {
+	var height = (window.innerHeight + 100);
+	beforeEach(function() {
+		document.body.style.height = height + 'px';
+		document.body.insertAdjacentHTML('afterbegin', '<div id="inview" style="width: 10px; height: 10px; background: #bada55;" data-o-element-visibility-track></div>');
+		document.body.insertAdjacentHTML('afterbegin', '<div id="outview" style="width: 10px; height: 10px; top: ' + window.innerHeight + 'px; position: absolute; background: #bada55;"></div>')
+	});
+
+	afterEach(function() {
+		oElemVis.destroy();
+		document.body.removeAttribute('style');
+		document.body.removeChild(inview);
+		document.body.removeChild(outview);
+	});
+
+	it('should track elements with the attribute  data-o-element-visibility-track', function() {
+		document.documentElement.dispatchEvent(new CustomEvent('o.DOMContentLoaded'));
+		expect(oElemVis.tracked.length).to.equal(1);
+	});
+
+	it('should track stop tracking elements when destroy is called', function() {
+		oElemVis.track(inview);
+		expect(oElemVis.tracked.length).to.equal(1);
+		oElemVis.destroy()
+		expect(oElemVis.tracked.length).to.equal(0);
+	});
+
+	it('Attempting to track the same element twice is caught', function() {
+		var result1 = oElemVis.track(inview);
+		expect(oElemVis.tracked.length).to.equal(1);
+		var result2 = oElemVis.track(inview);
+		expect(result1).to.eql(result2);
+		expect(oElemVis.tracked.length).to.equal(1);
+	});
+
+	it('should track elements passed to track', function() {
+		oElemVis.track(outview);
+		expect(oElemVis.tracked.length).to.equal(1);
+		expect(oElemVis.tracked[0].node.id).to.be('outview');
+	});
+
+	describe('should fire events when first run', function() {
+		it('should report the inview element as 100% in viewport', function(done) {
+			function assert(event) {
+				expect(event.detail.inviewport).to.be(true);
+				expect(event.detail.percentage).to.be(100);
+				expect(event.detail.element.node.id).to.be('inview');
+
+				document.documentElement.removeEventListener('oVisibility.inview', assert);
+				done();
+			}
+
+			document.documentElement.addEventListener('oVisibility.inview', assert);
+			oElemVis.track(inview);
+
+		});
+
+		it('should report the outview element as 0% in viewport', function(done) {
+			// setting viewport size doesn't seem to work with karma/phantomjs so skip this test
+			if (isPhantom()) done();
+
+			function assert(event) {
+				expect(event.detail.inviewport).to.be(false);
+				expect(event.detail.percentage).to.be(0);
+				expect(event.detail.element.node.id).to.be('outview');
+
+				document.documentElement.removeEventListener('oVisibility.inview', assert);
+				done();
+			}
+
+			document.documentElement.addEventListener('oVisibility.inview', assert);
+
+			oElemVis.track(outview);
+		});
+	});
+
+	describe('should fire events when visibility status changes', function() {
+		// setting viewport size doesn't seem to work with karma/phantomjs so skip this test
+		if (isPhantom()) return true;
+
+		it('should report the outview element as 100% and inview as 0% in viewport', function(done) {
+			var assertions = 0;
+			document.documentElement.addEventListener('oVisibility.inview', assertFirst);
+			oElemVis.track(inview);
+			oElemVis.track(outview);
+
+			function assertFirst(event) {
+				if (event.detail.element.node.id === 'inview') {
+					expect(event.detail.inviewport).to.be.true;
+					expect(event.detail.percentage).to.be(100);
+					assertions++;
+				} else if (event.detail.element.node.id === 'outview') {
+					expect(event.detail.inviewport).to.be.false;
+					expect(event.detail.percentage).to.equal(0);
+					assertions++;
+				}
+
+				if (assertions === 2) {
+					assertions = 0;
+					document.documentElement.removeEventListener('oVisibility.inview', assertFirst);
+					document.documentElement.addEventListener('oVisibility.inview', assertSecond);
+					window.scroll(0, height);
+				}
+			}
+
+			function assertSecond(event) {
+				if (event.detail.element.node.id === 'inview') {
+					expect(event.detail.inviewport).to.be.false;
+					expect(event.detail.percentage).to.be(0);
+					assertions++;
+				} else if (event.detail.element.node.id === 'outview') {
+					expect(event.detail.inviewport).to.be.true;
+					expect(event.detail.percentage).to.be(100);
+					assertions++;
+				}
+
+				if (assertions === 2) {
+					assertions = 0;
+					document.documentElement.removeEventListener('oVisibility.inview', assertSecond);
+					done();
+				}
+			}
+		});
+	});
+});
