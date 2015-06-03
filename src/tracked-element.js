@@ -4,7 +4,6 @@ var oviewport = require('../../o-viewport/main.js');
 /*
 * Represents a tracked element
 */
-
 function TrackedElement(node) {
 	if (!(this instanceof TrackedElement)) {
 		return new TrackedElement(node);
@@ -46,9 +45,9 @@ TrackedElement.prototype.updatePosition = function() {
 	var height = this.height = rect.height;
 	var top = this.top = scroll.top + rect.top;
 	var left = this.left = scroll.left + rect.left;
-	var bottom = this.bottom = top + height;
-	var right = this.right = left + width;
-	var area = this.area = width * height;
+	this.bottom = top + height;
+	this.right = left + width;
+	this.area = width * height;
 	return this;
 };
 

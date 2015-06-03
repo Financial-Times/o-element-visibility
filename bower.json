@@ -3,7 +3,6 @@
 	"description": "Utility for monitoring elements visibility within the viewport",
 	"main": "main.js",
 	"dependencies": {
-		"o-viewport": "https://github.com/Financial-Times/o-viewport.git#element-tracking",
-		"lodash": "https://github.com/lodash/lodash.git#3.5.0-npm"
+		"o-viewport": "^1.4.0"
 	}
 }

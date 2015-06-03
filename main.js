@@ -1,5 +1,5 @@
 'use strict';
-var oviewport = require('../o-viewport/main.js');
+var oviewport = require('o-viewport');
 var TrackedElement = require('./src/tracked-element');
 
 var tracked = [];
@@ -23,7 +23,7 @@ function track(element) {
 }
 
 /*
-* Provides a test for if an element is the same the provided element
+* Provides a test for matching elements
 */
 function sameElement(element) {
 	return function(item) {
@@ -41,6 +41,9 @@ function update(force) {
 	});
 }
 
+/*
+* Call the updatePositions method on all tracked elements
+*/
 function updatePositions(force) {
 	var force = force === true ? true : false;
 	tracked.forEach(function(element) {
@@ -48,6 +51,9 @@ function updatePositions(force) {
 	});
 }
 
+/*
+* initialise
+*/
 function init(selector, debug) {
 	var elements = [];
 	selector = typeof selector === 'string' ? selector : '[data-o-element-visibility-track]';
@@ -69,6 +75,13 @@ function init(selector, debug) {
 
 function destroy() {
 	tracked.length = 0;
+	if (tracking === true) {
+		document.body.removeEventListener('oViewport.orientation', updatePositions);
+		document.body.removeEventListener('oViewport.resize', updatePositions);
+		document.body.removeEventListener('oViewport.scroll', update);
+		document.body.removeEventListener('oViewport.visibility', update);
+		tracking = false;
+	}
 }
 
 function initEvents() {

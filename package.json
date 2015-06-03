@@ -10,6 +10,7 @@
     "karma-browserify": "^4.2.1",
     "karma-mocha": "^0.1.10",
     "karma-phantomjs-launcher": "^0.2.0",
-    "mocha": "^2.2.5"
+    "mocha": "^2.2.5",
+    "lodash": "^3.5.0"
   }
 }
