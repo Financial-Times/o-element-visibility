@@ -161,7 +161,7 @@ GeneratePage.prototype.maxDivs = function(num) {
 
 document.addEventListener('DOMContentLoaded', function() {
 	// setup the demo
-	window.oDemo = new GeneratePage();
+	var oDemo = window.oDemo = new GeneratePage();
 	document.body.addEventListener('oVisibility.inview', function(event) {
 		if (event.detail.percentage >= window.oDemo.getThreshold()) {
 			event.detail.element.node.className = 'inview';

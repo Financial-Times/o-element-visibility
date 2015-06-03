@@ -28,14 +28,14 @@ function track(element) {
 function sameElement(element) {
 	return function(item) {
 		return item.node === element;
-	}
+	};
 }
 
 /*
 * Call the update method on all tracked elements
 */
 function update(force) {
-	var force = force === true ? true : false;
+	force = force === true ? true : false;
 	tracked.forEach(function(element) {
 		element.update(force);
 	});
@@ -45,7 +45,7 @@ function update(force) {
 * Call the updatePositions method on all tracked elements
 */
 function updatePositions(force) {
-	var force = force === true ? true : false;
+	force = force === true ? true : false;
 	tracked.forEach(function(element) {
 		element.updatePosition().update(force);
 	});

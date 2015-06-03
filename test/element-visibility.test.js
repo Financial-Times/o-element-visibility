@@ -1,4 +1,4 @@
-/*global describe, it, before, after*/
+/*global describe, it, beforeEach, afterEach*/
 'use strict';
 
 var expect = require('expect.js');
@@ -10,11 +10,14 @@ function isPhantom() {
 }
 
 describe('o-element-visibility', function() {
+	var inview, outview;
 	var height = (window.innerHeight + 100);
 	beforeEach(function() {
 		document.body.style.height = height + 'px';
 		document.body.insertAdjacentHTML('afterbegin', '<div id="inview" style="width: 10px; height: 10px; background: #bada55;" data-o-element-visibility-track></div>');
-		document.body.insertAdjacentHTML('afterbegin', '<div id="outview" style="width: 10px; height: 10px; top: ' + window.innerHeight + 'px; position: absolute; background: #bada55;"></div>')
+		document.body.insertAdjacentHTML('afterbegin', '<div id="outview" style="width: 10px; height: 10px; top: ' + window.innerHeight + 'px; position: absolute; background: #bada55;"></div>');
+		inview = document.getElementById('inview');
+		outview = document.getElementById('outview');
 	});
 
 	afterEach(function() {
@@ -32,7 +35,7 @@ describe('o-element-visibility', function() {
 	it('should track stop tracking elements when destroy is called', function() {
 		oElemVis.track(inview);
 		expect(oElemVis.tracked.length).to.equal(1);
-		oElemVis.destroy()
+		oElemVis.destroy();
 		expect(oElemVis.tracked.length).to.equal(0);
 	});
 
