@@ -1,5 +1,5 @@
 'use strict';
-var oviewport = require('o-viewport');
+var oViewport = require('o-viewport');
 var TrackedElement = require('./src/tracked-element');
 
 var tracked = [];
@@ -86,7 +86,7 @@ function destroy() {
 
 function initEvents() {
 	if (tracking === false) {
-		oviewport.listenTo('all');
+		oViewport.listenTo('all');
 		document.body.addEventListener('oViewport.orientation', updatePositions);
 		document.body.addEventListener('oViewport.resize', updatePositions);
 		document.body.addEventListener('oViewport.scroll', update);
