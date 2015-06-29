@@ -12,7 +12,7 @@
     },
     "demos": [
         {
-            "path": "/demos/element-tracking.html",
+            "path": "/demos/element-visibility.html",
             "expanded": true,
             "description": ""
         }

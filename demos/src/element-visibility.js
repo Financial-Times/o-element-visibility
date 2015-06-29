@@ -1,7 +1,7 @@
 'use strict';
 var debounce = require('lodash/function/debounce');
-var oViewport = require('../../../o-viewport/main.js');
-var elementVis = require('../../main.js');
+var oViewport = require('o-viewport');
+var elementVis = require('./../../main.js');
 
 // cover the page in randomly with divs
 function GeneratePage() {

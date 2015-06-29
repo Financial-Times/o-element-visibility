@@ -1,5 +1,5 @@
 'use strict';
-var oviewport = require('../../o-viewport/main.js');
+var oviewport = require('o-viewport');
 
 /*
 * Represents a tracked element
