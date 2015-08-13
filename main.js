@@ -1,15 +1,14 @@
-'use strict';
-var oViewport = require('o-viewport');
-var TrackedElement = require('./src/tracked-element');
+const oViewport = require('o-viewport');
+const TrackedElement = require('./src/tracked-element');
 
-var tracked = [];
-var tracking = false;
+const tracked = [];
+let tracking = false;
 
 /*
 * begin tracking an element
 */
 function track(element) {
-	var exists = tracked.filter(sameElement(element));
+	const exists = tracked.filter(sameElement(element));
 	if (exists.length) {
 		element = exists[0];
 	} else {
@@ -54,8 +53,8 @@ function updatePositions(force) {
 /*
 * initialise
 */
-function init(selector, debug) {
-	var elements = [];
+function init(selector) {
+	let elements = [];
 	selector = typeof selector === 'string' ? selector : '[data-o-element-visibility-track]';
 
 	try {
