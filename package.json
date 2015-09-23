@@ -11,6 +11,7 @@
     "karma-mocha": "^0.1.10",
     "karma-phantomjs-launcher": "^0.2.0",
     "mocha": "^2.2.5",
-    "lodash": "^3.5.0"
+    "lodash": "^3.5.0",
+    "babelify": "^5.0.4"
   }
 }

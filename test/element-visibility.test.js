@@ -1,17 +1,16 @@
 /*global describe, it, beforeEach, afterEach*/
-'use strict';
+const expect = require('expect.js');
 
-var expect = require('expect.js');
-
-var oElemVis = require('./../main.js');
+const oElemVis = require('./../main.js');
 
 function isPhantom() {
 	return /PhantomJS/.test(navigator.userAgent);
 }
 
 describe('o-element-visibility', function() {
-	var inview, outview;
-	var height = (window.innerHeight + 100);
+	let inview;
+	let outview;
+	const height = (window.innerHeight + 100);
 	beforeEach(function() {
 		document.body.style.height = height + 'px';
 		document.body.insertAdjacentHTML('afterbegin', '<div id="inview" style="width: 10px; height: 10px; background: #bada55;" data-o-element-visibility-track></div>');
@@ -40,9 +39,9 @@ describe('o-element-visibility', function() {
 	});
 
 	it('Attempting to track the same element twice is caught', function() {
-		var result1 = oElemVis.track(inview);
+		const result1 = oElemVis.track(inview);
 		expect(oElemVis.tracked.length).to.equal(1);
-		var result2 = oElemVis.track(inview);
+		const result2 = oElemVis.track(inview);
 		expect(result1).to.eql(result2);
 		expect(oElemVis.tracked.length).to.equal(1);
 	});
@@ -93,7 +92,7 @@ describe('o-element-visibility', function() {
 		if (isPhantom()) return true;
 
 		it('should report the outview element as 100% and inview as 0% in viewport', function(done) {
-			var assertions = 0;
+			let assertions = 0;
 			document.documentElement.addEventListener('oVisibility.inview', assertFirst);
 			oElemVis.track(inview);
 			oElemVis.track(outview);

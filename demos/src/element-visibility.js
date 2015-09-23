@@ -1,14 +1,13 @@
-'use strict';
-var debounce = require('lodash/function/debounce');
-var oViewport = require('o-viewport');
-var elementVis = require('./../../main.js');
+const debounce = require('lodash/function/debounce');
+const oViewport = require('o-viewport');
+const elementVis = require('./../../main.js');
 
 // cover the page in randomly with divs
 function GeneratePage() {
 	this.generatedPositions = [];
 
 	// get the size of our sample div, then remove it, it's served it's purpose
-	var div = document.querySelector('[data-o-element-visibility-track]');
+	const div = document.querySelector('[data-o-element-visibility-track]');
 	if (!div) throw new Error('Demo base div missing');
 	this.div = div.getBoundingClientRect();
 	div.parentNode.removeChild(div);
@@ -17,7 +16,7 @@ function GeneratePage() {
 	this.body = this.setBodySize(1.2);
 
 	// calculate a sensible amount of divs to display
-	var numDivs = this.numDivs = this.maxDivs();
+	const numDivs = this.numDivs = this.maxDivs();
 	this.addDivs(numDivs);
 
 	// counters
@@ -28,7 +27,7 @@ function GeneratePage() {
 }
 
 // setup the info box
-GeneratePage.prototype.setupInfo = function(argument) {
+GeneratePage.prototype.setupInfo = function() {
 	// fields
 	this.inViewField = document.getElementById('inView');
 	this.totalField = document.getElementById('total');
@@ -61,8 +60,8 @@ GeneratePage.prototype.getThreshold = function() {
 };
 
 // update the element tracking values when threshold is changed
-GeneratePage.prototype.changeThresholdEvent = function(event) {
-	var threshold = this.getThreshold();
+GeneratePage.prototype.changeThresholdEvent = function() {
+	const threshold = this.getThreshold();
 	this.setField('threshold', threshold);
 	elementVis.update(true);
 	return threshold;
@@ -74,8 +73,8 @@ GeneratePage.prototype.getListen = function() {
 };
 
 // update the element tracking values when threshold is changed
-GeneratePage.prototype.changeListenEvent = function(event) {
-	var listen = this.getListen();
+GeneratePage.prototype.changeListenEvent = function() {
+	const listen = this.getListen();
 	if (listen) {
 		oViewport.listenTo('all');
 		elementVis.update();
@@ -88,9 +87,9 @@ GeneratePage.prototype.changeListenEvent = function(event) {
 
 // set the size of the document body
 GeneratePage.prototype.setBodySize = function(factor) {
-	var viewport = oViewport.getSize();
-	var width = Math.ceil(viewport.width * factor);
-	var height = Math.ceil(viewport.height * factor);
+	const viewport = oViewport.getSize();
+	const width = Math.ceil(viewport.width * factor);
+	const height = Math.ceil(viewport.height * factor);
 	document.body.style.width = width + 'px';
 	document.body.style.height = height + 'px';
 
@@ -102,10 +101,11 @@ GeneratePage.prototype.setBodySize = function(factor) {
 
 // we don't want overlapping divs
 GeneratePage.prototype.doesCollide = function doesCollide(current) {
-	var pos, collides;
-	var div = this.div;
+	let pos;
+	let collides;
+	const div = this.div;
 
-	for (var i = 0, len = this.generatedPositions.length; i < len; i++) {
+	for (let i = 0, len = this.generatedPositions.length; i < len; i++) {
 		pos = this.generatedPositions[i];
 		collides = !(
 			((current.top + div.height) < (pos.top)) ||
@@ -124,7 +124,8 @@ GeneratePage.prototype.doesCollide = function doesCollide(current) {
 
 // generates a random unique top/left postion within the body of the page
 GeneratePage.prototype.randomPosition = function() {
-	var top, left;
+	let top;
+	let left;
 
 	do {
 		top = Math.floor(Math.random() * this.body.height);
@@ -145,7 +146,7 @@ GeneratePage.prototype.randomPosition = function() {
 // Add the given number of elements to the page, randomly positioned
 GeneratePage.prototype.addDivs = function(num) {
 	while (num--) {
-		var pos = this.randomPosition();
+		const pos = this.randomPosition();
 		document.body.insertAdjacentHTML('afterbegin', '<div data-o-element-visibility-track="" style="top: ' + pos.top + 'px; left: ' + pos.left + 'px;"></div>');
 	}
 };
@@ -153,15 +154,15 @@ GeneratePage.prototype.addDivs = function(num) {
 // Calculate a sensible amount of divs to add to the page
 // the result will be a page with half it's area covered
 // any more and the collision detection will take a long time and possibly crash
-GeneratePage.prototype.maxDivs = function(num) {
-	var bodyArea = (this.body.width * this.body.height);
-	var divArea = (this.div.width * this.div.height);
+GeneratePage.prototype.maxDivs = function() {
+	const bodyArea = (this.body.width * this.body.height);
+	const divArea = (this.div.width * this.div.height);
 	return Math.floor((bodyArea / divArea) / 2);
 };
 
 document.addEventListener('DOMContentLoaded', function() {
 	// setup the demo
-	var oDemo = window.oDemo = new GeneratePage();
+	const oDemo = window.oDemo = new GeneratePage();
 	document.body.addEventListener('oVisibility.inview', function(event) {
 		if (event.detail.percentage >= window.oDemo.getThreshold()) {
 			event.detail.element.node.className = 'inview';
