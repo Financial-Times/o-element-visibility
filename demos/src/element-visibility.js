@@ -89,7 +89,7 @@ GeneratePage.prototype.changeListenEvent = function() {
 GeneratePage.prototype.setBodySize = function(factor) {
 	const viewport = oViewport.getSize();
 	const width = Math.ceil(viewport.width * factor);
-	const height = Math.ceil(viewport.height * factor);
+	const height = Math.ceil((viewport.height || 400) * factor);
 	document.body.style.width = width + 'px';
 	document.body.style.height = height + 'px';
 
