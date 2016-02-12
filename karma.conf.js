@@ -1,78 +1,72 @@
 /*global module*/
 
-module.exports = function(config) {
-	config.set({
+var oprions = {
+	// base path that will be used to resolve all patterns (eg. files, exclude)
+	basePath: '',
 
-		// base path that will be used to resolve all patterns (eg. files, exclude)
-		basePath: '',
+	// frameworks to use
+	// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
+	frameworks: ['browserify', 'mocha'],
 
-		// frameworks to use
-		// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-		frameworks: ['browserify', 'mocha'],
+	// list of files / patterns to load in the browser
+	files: [
+		'http://polyfill.webservices.ft.com/v1/polyfill.js?ua=safari/4',
+		'test/*.test.js'
+	],
 
-		// list of files / patterns to load in the browser
-		files: [
-			'http://polyfill.webservices.ft.com/v1/polyfill.js?ua=safari/4',
-			'test/*.test.js'
-		],
+	// list of files to exclude
+	exclude: [
+	],
 
-		// list of files to exclude
-		exclude: [
-		],
+	// preprocess matching files before serving them to the browser
+	// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
+	preprocessors: {
+		'test/*.test.js': ['browserify']
+	},
 
-		// preprocess matching files before serving them to the browser
-		// available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
-		preprocessors: {
-			'test/*.test.js': ['browserify']
-		},
+	// test results reporter to use
+	// possible values: 'dots', 'progress'
+	// available reporters: https://npmjs.org/browse/keyword/karma-reporter
+	reporters: ['progress'],
 
-		// test results reporter to use
-		// possible values: 'dots', 'progress'
-		// available reporters: https://npmjs.org/browse/keyword/karma-reporter
-		reporters: ['progress'],
+	// web server port
+	port: 9876,
 
-		// web server port
-		port: 9876,
+	// enable / disable colors in the output (reporters and logs)
+	colors: true,
 
-		// enable / disable colors in the output (reporters and logs)
-		colors: true,
 
-		// level of logging
-		// possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-		logLevel: config.LOG_INFO,
+	// enable / disable watching file and executing tests whenever any file changes
+	autoWatch: true,
+	singleRun: false,
 
-		// enable / disable watching file and executing tests whenever any file changes
-		autoWatch: false,
+	browsers: ['Chrome'],
 
-		// start these browsers
-		// available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-		browsers: ['PhantomJSCustom'],
+	// Continuous Integration mode
+	// if true, Karma captures browsers, runs the tests and exits
 
-		// change browser to PhantomJSDebug to launch the test with remote debugging enabled
-		customLaunchers: {
-			// this should set the viewport size of the browser
-			PhantomJSCustom: {
-				base: 'PhantomJS',
-				options: {
-					viewportSize: { width: 200, height: 500 }
-				}
-			},
-			PhantomJSDebug: {
-				base: 'PhantomJS',
-				options: {
-					viewportSize: { width: 200, height: 500 }
-				},
-				debug: true
+	browserify: {
+		debug: true,
+		transform: ['babelify', 'debowerify']
+	},
+
+	client: {
+			mocha: {
+					reporter: 'html',
+					ui: 'bdd',
+					timeout: 0
 			}
-		},
+	},
+};
 
-		// Continuous Integration mode
-		// if true, Karma captures browsers, runs the tests and exits
-		singleRun: true,
+if (process.env.CI) {
+  console.log('CI options on.');
+  options.browsers = ['PhantomJS'];
+  options.autoWatch = false;
+  options.singleRun = true;
+}
 
-		browserify: {
-			debug: true,
-			transform: ['babelify', 'debowerify']
-		}
-	});
+module.exports = function (config) {
+  options.logLevel = config.LOG_INFO;
+  config.set(options);
 };
