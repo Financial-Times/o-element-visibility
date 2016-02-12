@@ -1,6 +1,6 @@
 /*global module*/
 
-var oprions = {
+var options = {
 	// base path that will be used to resolve all patterns (eg. files, exclude)
 	basePath: '',
 
