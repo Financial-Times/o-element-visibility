@@ -1,6 +1,7 @@
 /*global module, process*/
+/*eslint strict: 0, no-var: 0, no-console: 0 */
 
-let options = {
+var options = {
 	// base path that will be used to resolve all patterns (eg. files, exclude)
 	basePath: '',
 
