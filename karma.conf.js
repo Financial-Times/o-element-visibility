@@ -1,6 +1,6 @@
-/*global module*/
+/*global module, process*/
 
-var options = {
+let options = {
 	// base path that will be used to resolve all patterns (eg. files, exclude)
 	basePath: '',
 

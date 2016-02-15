@@ -3,7 +3,6 @@ const expect = require('expect.js');
 const sinon = require('sinon');
 
 const oElemVis = require('./../main.js');
-const TrackedElement = require('./../src/tracked-element.js');
 
 function isPhantom() {
 	return /PhantomJS/.test(navigator.userAgent);
@@ -12,7 +11,7 @@ function isPhantom() {
 describe('o-element-visibility', function() {
 	let inview;
 	let outview;
-	let thirdPartyContainerMock;
+
 	const height = (window.innerHeight + 100);
 	beforeEach(function() {
 		document.body.style.height = height + 'px';
