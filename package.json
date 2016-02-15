@@ -12,8 +12,10 @@
     "karma-phantomjs-launcher": "^0.2.1",
     "karma-chrome-launcher": "^0.2.2",
     "karma-junit-reporter": "^0.3.8",
+    "karma-sinon": "^1.0.4",
     "mocha": "^2.3.3",
     "lodash": "^3.10.1",
-    "babelify": "^6.0.3"
+    "babelify": "^6.0.3",
+    "sinon": "^1.17.2"
   }
 }

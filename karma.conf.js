@@ -6,7 +6,7 @@ var options = {
 
 	// frameworks to use
 	// available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-	frameworks: ['browserify', 'mocha'],
+	frameworks: ['browserify', 'mocha', 'sinon'],
 
 	// list of files / patterns to load in the browser
 	files: [

@@ -3,6 +3,7 @@ const TrackedElement = require('./src/tracked-element');
 
 const tracked = [];
 let tracking = false;
+let bodyHeight = window.document.body.clientHeight;
 
 /*
 * begin tracking an element
@@ -51,6 +52,16 @@ function updatePositions(force) {
 }
 
 /*
+* Call the updateScrollHandler method when scrolling
+*/
+function updateScrollHandler() {
+	if(bodyHeight !== document.body.clientHeight) {
+		updatePositions();
+	}
+	update();
+}
+
+/*
 * initialise
 */
 function init(selector) {
@@ -77,7 +88,7 @@ function destroy() {
 	if (tracking === true) {
 		document.body.removeEventListener('oViewport.orientation', updatePositions);
 		document.body.removeEventListener('oViewport.resize', updatePositions);
-		document.body.removeEventListener('oViewport.scroll', update);
+		document.body.removeEventListener('oViewport.scroll', updateScrollHandler);
 		document.body.removeEventListener('oViewport.visibility', update);
 		tracking = false;
 	}
@@ -88,7 +99,7 @@ function initEvents() {
 		oViewport.listenTo('all');
 		document.body.addEventListener('oViewport.orientation', updatePositions);
 		document.body.addEventListener('oViewport.resize', updatePositions);
-		document.body.addEventListener('oViewport.scroll', update);
+		document.body.addEventListener('oViewport.scroll', updateScrollHandler);
 		document.body.addEventListener('oViewport.visibility', update);
 
 		tracking = true;

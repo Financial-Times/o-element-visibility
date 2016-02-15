@@ -1,7 +1,9 @@
 /*global describe, it, beforeEach, afterEach*/
 const expect = require('expect.js');
+const sinon = require('sinon');
 
 const oElemVis = require('./../main.js');
+const TrackedElement = require('./../src/tracked-element.js');
 
 function isPhantom() {
 	return /PhantomJS/.test(navigator.userAgent);
@@ -10,6 +12,7 @@ function isPhantom() {
 describe('o-element-visibility', function() {
 	let inview;
 	let outview;
+	let thirdPartyContainerMock;
 	const height = (window.innerHeight + 100);
 	beforeEach(function() {
 		document.body.style.height = height + 'px';
@@ -24,6 +27,8 @@ describe('o-element-visibility', function() {
 		document.body.removeAttribute('style');
 		document.body.removeChild(inview);
 		document.body.removeChild(outview);
+		// sinon.spy().restore();
+		window.scroll(0,0)
 	});
 
 	it('should track elements with the attribute  data-o-element-visibility-track', function() {
@@ -84,6 +89,36 @@ describe('o-element-visibility', function() {
 			document.documentElement.addEventListener('oVisibility.inview', assert);
 
 			oElemVis.track(outview);
+		});
+
+		it('should recalculate the position of tracked elements once you scroll if height of body changed', function(done) {
+			let trackedElement = oElemVis.track(inview);
+			// spy on the update position
+			let trackedElementUpdatePositionSpy = sinon.spy(trackedElement, 'updatePosition');
+			// scroll few times
+			window.scroll(0,0);
+			window.scroll(0,1);
+			window.scroll(0,2);
+			expect(trackedElement.top).to.equal(0);
+			expect(trackedElement.inview).to.equal(true);
+			expect(trackedElementUpdatePositionSpy.callCount).to.equal(0);
+			// append DOM to add a new element
+			document.body.insertAdjacentHTML('afterbegin', '<div id="gap" style="width: 10px; height: '+height+'px; background: #ff0000;"></div>');
+			// fire scroll
+			window.scroll(0,10);
+
+			// give time to propagate the event
+			setTimeout(function(){
+				// make sure tracked element position has been updated
+				expect(trackedElement.top).to.equal(height);
+				expect(trackedElement.inview).to.equal(false);
+				// make sure the recalculation has only been done once and not once for each scroll event
+				expect(trackedElementUpdatePositionSpy.callCount).to.equal(1);
+				// cleanup
+				document.body.removeChild(document.getElementById('gap'));
+				trackedElementUpdatePositionSpy.restore();
+				done();
+			}, 0);
 		});
 	});
 
