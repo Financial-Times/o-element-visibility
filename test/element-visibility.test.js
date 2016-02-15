@@ -74,7 +74,10 @@ describe('o-element-visibility', function() {
 
 		it('should report the outview element as 0% in viewport', function(done) {
 			// setting viewport size doesn't seem to work with karma/phantomjs so skip this test
-			if (isPhantom()) done();
+			if (isPhantom()) {
+				done();
+				return true;
+			}
 
 			function assert(event) {
 				expect(event.detail.inviewport).to.be(false);
@@ -92,7 +95,10 @@ describe('o-element-visibility', function() {
 
 		it('should recalculate the position of tracked elements once you scroll if height of body changed', function(done) {
 			// setting viewport size doesn't seem to work with karma/phantomjs so skip this test
-			if (isPhantom()) return true;
+			if (isPhantom()) {
+				done();
+				return true;
+			}
 
 			let trackedElement = oElemVis.track(inview);
 			// spy on the update position
@@ -116,6 +122,15 @@ describe('o-element-visibility', function() {
 				expect(trackedElement.inview).to.equal(false);
 				// make sure the recalculation has only been done once and not once for each scroll event
 				expect(trackedElementUpdatePositionSpy.callCount).to.equal(1);
+			}, 0);
+
+			// fire scroll
+			window.scroll(0,10);
+
+			// give time to propagate the event
+			setTimeout(function(){
+				// make sure we did not call the updatePosition twice
+				expect(trackedElementUpdatePositionSpy.callCount).to.equal(1);
 				// cleanup
 				document.body.removeChild(document.getElementById('gap'));
 				trackedElementUpdatePositionSpy.restore();
@@ -125,10 +140,14 @@ describe('o-element-visibility', function() {
 	});
 
 	describe('should fire events when visibility status changes', function() {
-		// setting viewport size doesn't seem to work with karma/phantomjs so skip this test
-		if (isPhantom()) return true;
 
 		it('should report the outview element as 100% and inview as 0% in viewport', function(done) {
+			// setting viewport size doesn't seem to work with karma/phantomjs so skip this test
+			if (isPhantom()) {
+				done();
+				return true;
+			}
+
 			let assertions = 0;
 			document.documentElement.addEventListener('oVisibility.inview', assertFirst);
 			oElemVis.track(inview);
