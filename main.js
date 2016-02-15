@@ -56,8 +56,8 @@ function updatePositions(force) {
 */
 function updateScrollHandler() {
 	if(bodyHeight !== document.body.clientHeight) {
-		updatePositions();
 		bodyHeight = document.body.clientHeight;
+		updatePositions();
 	}
 	update();
 }
