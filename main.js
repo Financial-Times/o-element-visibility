@@ -3,7 +3,7 @@ const TrackedElement = require('./src/tracked-element');
 
 const tracked = [];
 let tracking = false;
-let bodyHeight = window.document.body.clientHeight;
+let bodyHeight = document.body.clientHeight;
 
 /*
 * begin tracking an element
