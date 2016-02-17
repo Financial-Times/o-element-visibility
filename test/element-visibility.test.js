@@ -1,5 +1,6 @@
 /*global describe, it, beforeEach, afterEach*/
 const expect = require('expect.js');
+const sinon = require('sinon');
 
 const oElemVis = require('./../main.js');
 
@@ -10,6 +11,7 @@ function isPhantom() {
 describe('o-element-visibility', function() {
 	let inview;
 	let outview;
+
 	const height = (window.innerHeight + 100);
 	beforeEach(function() {
 		document.body.style.height = height + 'px';
@@ -24,6 +26,8 @@ describe('o-element-visibility', function() {
 		document.body.removeAttribute('style');
 		document.body.removeChild(inview);
 		document.body.removeChild(outview);
+		// sinon.spy().restore();
+		window.scroll(0,0)
 	});
 
 	it('should track elements with the attribute  data-o-element-visibility-track', function() {
@@ -70,7 +74,10 @@ describe('o-element-visibility', function() {
 
 		it('should report the outview element as 0% in viewport', function(done) {
 			// setting viewport size doesn't seem to work with karma/phantomjs so skip this test
-			if (isPhantom()) done();
+			if (isPhantom()) {
+				done();
+				return true;
+			}
 
 			function assert(event) {
 				expect(event.detail.inviewport).to.be(false);
@@ -85,13 +92,62 @@ describe('o-element-visibility', function() {
 
 			oElemVis.track(outview);
 		});
+
+		it('should recalculate the position of tracked elements once you scroll if height of body changed', function(done) {
+			// setting viewport size doesn't seem to work with karma/phantomjs so skip this test
+			if (isPhantom()) {
+				done();
+				return true;
+			}
+
+			let trackedElement = oElemVis.track(inview);
+			// spy on the update position
+			let trackedElementUpdatePositionSpy = sinon.spy(trackedElement, 'updatePosition');
+
+			expect(trackedElement.top).to.equal(0);
+			expect(trackedElement.inview).to.equal(true);
+			expect(trackedElementUpdatePositionSpy.callCount).to.equal(0);
+			// append DOM to add a new element
+			document.body.insertAdjacentHTML('afterbegin', '<div id="gap" style="width: 10px; height: '+height+'px; background: #ff0000;"></div>');
+
+			function assertFirst(){
+				// make sure tracked element position has been updated
+				expect(trackedElement.top).to.equal(height);
+				expect(trackedElement.inview).to.equal(false);
+				// make sure the recalculation has only been done once and not once for each scroll event
+				expect(trackedElementUpdatePositionSpy.callCount).to.equal(1);
+			}
+
+			function assertSecond(){
+				// make sure we did not call the updatePosition twice
+				expect(trackedElementUpdatePositionSpy.callCount).to.equal(1);
+				done();
+			}
+
+			window.addEventListener('scroll', assertFirst);
+			window.dispatchEvent(new CustomEvent('scroll'));
+			window.removeEventListener('scroll', assertFirst);
+
+			window.addEventListener('scroll', assertSecond);
+			window.dispatchEvent(new CustomEvent('scroll'));
+			window.removeEventListener('scroll', assertSecond);
+
+			// test cleanup
+			document.body.removeChild(document.getElementById('gap'));
+			trackedElementUpdatePositionSpy.restore();
+
+		});
 	});
 
 	describe('should fire events when visibility status changes', function() {
-		// setting viewport size doesn't seem to work with karma/phantomjs so skip this test
-		if (isPhantom()) return true;
 
 		it('should report the outview element as 100% and inview as 0% in viewport', function(done) {
+			// setting viewport size doesn't seem to work with karma/phantomjs so skip this test
+			if (isPhantom()) {
+				done();
+				return true;
+			}
+
 			let assertions = 0;
 			document.documentElement.addEventListener('oVisibility.inview', assertFirst);
 			oElemVis.track(inview);
