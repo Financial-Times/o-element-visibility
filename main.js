@@ -3,7 +3,7 @@ const TrackedElement = require('./src/tracked-element');
 
 const tracked = [];
 let tracking = false;
-let bodyHeight = document.body.clientHeight;
+let bodyHeight = 0;
 
 /*
 * begin tracking an element
@@ -81,6 +81,7 @@ function init(selector) {
 	}
 
 	initEvents();
+	bodyHeight = document.body.clientHeight;
 	document.documentElement.removeEventListener('o.DOMContentLoaded', init);
 }
 
@@ -102,7 +103,6 @@ function initEvents() {
 		document.body.addEventListener('oViewport.resize', updatePositions);
 		document.body.addEventListener('oViewport.scroll', updateScrollHandler);
 		document.body.addEventListener('oViewport.visibility', update);
-
 		tracking = true;
 	}
 }

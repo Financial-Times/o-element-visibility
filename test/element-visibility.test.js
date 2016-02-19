@@ -27,7 +27,8 @@ describe('o-element-visibility', function() {
 		document.body.removeChild(inview);
 		document.body.removeChild(outview);
 		// sinon.spy().restore();
-		window.scroll(0,0)
+		document.body.style.height = height + 'px';
+		window.scroll(0,0);
 	});
 
 	it('should track elements with the attribute  data-o-element-visibility-track', function() {
@@ -100,6 +101,9 @@ describe('o-element-visibility', function() {
 				return true;
 			}
 
+			// remove css height from body (set by a test)
+			document.body.style.height = 'auto';
+
 			let trackedElement = oElemVis.track(inview);
 			// spy on the update position
 			let trackedElementUpdatePositionSpy = sinon.spy(trackedElement, 'updatePosition');
@@ -109,7 +113,7 @@ describe('o-element-visibility', function() {
 			expect(trackedElementUpdatePositionSpy.callCount).to.equal(0);
 			// append DOM to add a new element
 			document.body.insertAdjacentHTML('afterbegin', '<div id="gap" style="width: 10px; height: '+height+'px; background: #ff0000;"></div>');
-
+			debugger;
 			function assertFirst(){
 				// make sure tracked element position has been updated
 				expect(trackedElement.top).to.equal(height);
