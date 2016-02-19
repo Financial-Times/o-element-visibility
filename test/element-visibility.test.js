@@ -113,7 +113,6 @@ describe('o-element-visibility', function() {
 			expect(trackedElementUpdatePositionSpy.callCount).to.equal(0);
 			// append DOM to add a new element
 			document.body.insertAdjacentHTML('afterbegin', '<div id="gap" style="width: 10px; height: '+height+'px; background: #ff0000;"></div>');
-			debugger;
 			function assertFirst(){
 				// make sure tracked element position has been updated
 				expect(trackedElement.top).to.equal(height);
