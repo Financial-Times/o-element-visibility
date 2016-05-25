@@ -18,7 +18,7 @@
             "name": "element-visibility",
             "js": "demos/src/element-visibility.js",
             "sass": "demos/src/element-visibility.scss",
-            "template": "/demos/src/element-visibility.mustache",
+            "template": "demos/src/element-visibility.mustache",
             "expanded": true,
             "description": ""
         }
