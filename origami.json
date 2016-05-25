@@ -10,9 +10,15 @@
             "matchmedia"
         ]
     },
+    "ci": {
+      "circle": "https://circleci.com/api/v1/project/Financial-Times/o-element-visibility"
+    },
     "demos": [
         {
-            "path": "/demos/element-visibility.html",
+            "name": "element-visibility",
+            "js": "demos/src/element-visibility.js",
+            "sass": "demos/src/element-visibility.scss",
+            "template": "/demos/src/element-visibility.mustache",
             "expanded": true,
             "description": ""
         }

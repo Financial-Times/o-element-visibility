@@ -1,4 +1,4 @@
-# o-element-visibility [![Build Status](https://travis-ci.org/Financial-Times/o-element-visibility.svg?branch=master)](https://travis-ci.org/Financial-Times/o-element-visibility)
+# o-element-visibility [![CircleCI](https://circleci.com/gh/Financial-Times/o-element-visibility.png?style=shield&circle-token=2955907e904827f0d42c1541e4996d863f34973b)](https://circleci.com/gh/Financial-Times/o-element-visibility)
 
 Utility for tracking element visibility within the viewport.
 
