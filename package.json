@@ -1,7 +1,13 @@
 {
+  "name": "o-element-visibility",
+  "version": "0.0.0",
+  "main": "main.js",
   "private": true,
   "scripts": {
     "test": "./node_modules/karma/bin/karma start karma.conf.js"
+  },
+  "dependencies": {
+    "o-viewport": "git+ssh://git@github.com:Financial-Times/o-viewport.git"
   },
   "devDependencies": {
     "debowerify": "^1.3.1",
