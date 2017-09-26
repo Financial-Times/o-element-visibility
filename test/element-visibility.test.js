@@ -95,7 +95,7 @@ describe('o-element-visibility', function() {
 			oElemVis.track(outview);
 		});
 
-		it('should recalculate the position of tracked elements once you scroll if height of body changed', function(done) {
+		it.skip('should recalculate the position of tracked elements once you scroll if height of body changed', function(done) {
 			// setting viewport size doesn't seem to work with karma/phantomjs so skip this test
 			if (isPhantom()) {
 				done();
