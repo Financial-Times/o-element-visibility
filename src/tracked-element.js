@@ -19,8 +19,8 @@ TrackedElement.prototype.update = function(force) {
 	this.inViewport().percentInViewport();
 
 	const type = (this.lastResult !== this.inview) ? 'visibility' :
-						(this.lastPercentage !== this.percentage) ? 'percentage' :
-						(force) ? 'update' : false;
+		(this.lastPercentage !== this.percentage) ? 'percentage' :
+			(force) ? 'update' : false;
 
 	if (type) {
 		broadcast('inview', {
