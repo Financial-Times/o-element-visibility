@@ -1,4 +1,4 @@
-# o-element-visibility [![CircleCI](https://circleci.com/gh/Financial-Times/o-element-visibility.png?style=shield&circle-token=2955907e904827f0d42c1541e4996d863f34973b)](https://circleci.com/gh/Financial-Times/o-element-visibility)
+# o-element-visibility [![CircleCI](https://circleci.com/gh/Financial-Times/o-element-visibility.png?style=shield&circle-token=2955907e904827f0d42c1541e4996d863f34973b)](https://circleci.com/gh/Financial-Times/o-element-visibility) [![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](#licence)
 
 Utility for tracking element visibility within the viewport.
 
