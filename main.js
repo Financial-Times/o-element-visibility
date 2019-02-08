@@ -1,5 +1,5 @@
-const oViewport = require('o-viewport');
-const TrackedElement = require('./src/tracked-element');
+import oViewport from 'o-viewport';
+import TrackedElement from './src/tracked-element';
 
 const tracked = [];
 let tracking = false;
@@ -109,7 +109,7 @@ function initEvents() {
 
 document.documentElement.addEventListener('o.DOMContentLoaded', init);
 
-module.exports = {
+export default {
 	track: track,
 	tracked: tracked,
 	updatePositions: updatePositions,

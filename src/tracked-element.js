@@ -1,4 +1,4 @@
-const oviewport = require('o-viewport');
+import oviewport from 'o-viewport';
 
 /*
 * Represents a tracked element
@@ -101,4 +101,4 @@ function broadcast(eventType, data, target) {
 	}));
 }
 
-module.exports = TrackedElement;
+export default TrackedElement;
