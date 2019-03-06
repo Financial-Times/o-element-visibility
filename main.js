@@ -109,7 +109,7 @@ function initEvents() {
 
 document.documentElement.addEventListener('o.DOMContentLoaded', init);
 
-export default {
+const oElementVisibility = {
 	track: track,
 	tracked: tracked,
 	updatePositions: updatePositions,
@@ -117,3 +117,6 @@ export default {
 	init: init,
 	destroy: destroy
 };
+
+export default oElementVisibility;
+export { oElementVisibility };
