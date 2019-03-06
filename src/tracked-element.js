@@ -102,3 +102,4 @@ function broadcast(eventType, data, target) {
 }
 
 export default TrackedElement;
+export { TrackedElement };
