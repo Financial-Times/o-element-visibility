@@ -1,8 +1,8 @@
 /* eslint-env mocha */
-import proclaim from 'proclaim';
+const proclaim = require('proclaim');
+const sinon = require('sinon');
 
-import sinon from 'sinon';
-import oElemVis from './../main.js';
+const oElemVis = require('./../main.js');
 
 function isPhantom() {
 	return /PhantomJS/.test(navigator.userAgent);
