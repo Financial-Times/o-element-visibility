@@ -1,5 +1,5 @@
 {
-    "description": "Utility component that enables a product to track its elements visibility within the viewport.",
+    "description": "Utility that enables a product to track whether an element is visible within the browser viewport.",
     "keywords": ["visibility", "tracking", "viewport"],
     "origamiType": "module",
     "origamiCategory": "utilities",
