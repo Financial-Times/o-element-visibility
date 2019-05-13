@@ -1,9 +1,10 @@
 {
-    "description": "Utility for moderating listeners for browser events on window",
+    "description": "Utility component that enables a product to track its elements visibility within the viewport.",
+    "keywords": ["visibility", "tracking", "viewport"],
     "origamiType": "module",
     "origamiCategory": "utilities",
     "origamiVersion": 1,
-    "support": "https://github.com/Financial-Times/o-viewport/issues",
+    "support": "https://github.com/Financial-Times/o-element-visibility/issues",
     "supportContact": {
         "email": "origami.support@ft.com",
         "slack": "financialtimes/ft-origami"
