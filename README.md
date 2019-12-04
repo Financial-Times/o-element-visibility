@@ -2,6 +2,8 @@
 
 Utility for tracking element visibility within the viewport.
 
+**o-element-visibility is deprecated. Instead use [Intersection Observer](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserver) with a [polyfill](http://polyfill.io/) to support browsers without Intersection Observer.**
+
 ## Methods
 
 ### `o-element-visibility#init(selector)`
